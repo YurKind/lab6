@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using ConsoleUI;
+using GraphicsEditor.Select;
 
 namespace GraphicsEditor
 {
@@ -39,6 +40,8 @@ namespace GraphicsEditor
             {
                 picture.Add(shape);
             }
+            
+            SelectionContainer.GetInstance().OnUndo(picture.shapes);
         }
     }
 }
