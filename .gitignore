@@ -1,0 +1,63 @@
+# Compiled source #
+
+*.com
+*.pdb
+*.obj
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Executables #
+
+*.sh
+*.bat
+
+# Packages #
+
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and DB #
+
+*.log
+*.sqlite
+
+# OS generated files #
+
+*.swp
+Thumbs.db
+ethumbs.db
+
+# Intellij IDEA #
+
+*.iml
+.idea/
+**/out/
+
+# Maven #
+
+**/target/
+
+# Gradle #
+
+**/.idea/
+**/.gradle/
+**/build/
+**/classes/
+gradlew*
+
+# Visual Studio #
+
+*.vcxproj*
+**/.vs/
+**/Debug/
+*.VC*
+*.user
