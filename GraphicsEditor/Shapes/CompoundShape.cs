@@ -68,7 +68,12 @@ namespace GraphicsEditor
             return GetAllInnerChildren(Shapes).Select(s => s.UID).Contains(shape.UID);
         }
 
-        private IEnumerable<IShape> GetAllInnerChildren(IEnumerable<IShape> children)
+        public IShape GetLastChild()
+        {
+            return Shapes[0];
+        }
+        
+        public IEnumerable<IShape> GetAllInnerChildren(IEnumerable<IShape> children)
         {
             var result = new List<IShape>();
             foreach (var shape in children)

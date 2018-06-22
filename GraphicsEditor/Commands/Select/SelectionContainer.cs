@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Schema;
 
 namespace GraphicsEditor.Select
 {
@@ -30,7 +31,7 @@ namespace GraphicsEditor.Select
             {
                 Shapes.Add(shape);
             }
-            
+
             if (shape is CompoundShape cs)
             {
                 foreach (var s in Shapes.ToList())
@@ -64,9 +65,78 @@ namespace GraphicsEditor.Select
             }
         }
 
+        public void OnMainRemove(Picture picture)
+        {
+            var allShapes = new List<IShape>();
+            foreach (var shape in picture.shapes)
+            {
+                if (shape is CompoundShape compoundShape)
+                {
+                    allShapes.AddRange(compoundShape.GetAllInnerChildren(compoundShape.Shapes).ToList());
+                }
+
+                allShapes.Add(shape);
+            }
+
+            var toAddLater = new List<CompoundShape>();
+            foreach (var shape in Shapes)
+            {
+                if (shape is CompoundShape compoundShape)
+                {
+                    if (compoundShape.Shapes.Count == 1)
+                    {
+                        toAddLater.Add(compoundShape);
+                    }
+                }
+            }
+            
+            var allSelectedShapes = new List<IShape>();
+            
+            foreach (var shape in Shapes)
+            {
+                if (shape is CompoundShape compoundShape)
+                {
+                    allSelectedShapes.AddRange(compoundShape.GetAllInnerChildren(compoundShape.Shapes).ToList());
+                }
+
+                allSelectedShapes.Add(shape);
+            }
+            
+            foreach (var shape in allSelectedShapes)
+            {
+                if (!allShapes.Select(s => s.UID).Contains(shape.UID))
+                {
+                    Shapes.Remove(shape);
+                }
+            }
+
+            foreach (var shape in toAddLater)
+            {
+                Shapes.Add(shape.GetLastChild());
+            }
+        }
+
         public void OnMainRemove(IShape shape)
         {
-            Shapes.Remove(shape);
+            if (shape is CompoundShape compoundShape)
+            {
+                var allShapes = compoundShape.GetAllInnerChildren(compoundShape.Shapes).ToList();
+                allShapes.Add(shape);
+                foreach (var child in allShapes)
+                {
+                    foreach (var selectedShape in Shapes.ToList())
+                    {
+                        if (selectedShape.UID == child.UID)
+                        {
+                            Shapes.Remove(selectedShape);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Shapes.Remove(shape);
+            }
         }
 
         public void OnUndo(IEnumerable<IShape> shapes)

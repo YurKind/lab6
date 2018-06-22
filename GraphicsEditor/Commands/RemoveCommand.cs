@@ -6,13 +6,12 @@ namespace GraphicsEditor
 {
     public class RemoveCommand : BaseEdit
     {
-
         public override string Name => "remove";
         public override string Help => "Удаляет фигуру с картинки по ее индексу";
 
         public override string Description => "Удаляет фигуру с картинки по ее индексу. Примает как\n" +
-                                     " аргумент список индексов фигур. (индексация начинается с 0, несколько" +
-                                     " чисел через пробел.)";
+                                              " аргумент список индексов фигур. (индексация начинается с 0, несколько" +
+                                              " чисел через пробел.)";
 
         public override string[] Synonyms => new[] {"rm"};
 
@@ -45,11 +44,11 @@ namespace GraphicsEditor
                 {
                     var shape = shapeLocator.Shape;
                     var parent = shapeLocator.Parent;
-                    
+
                     if (parent != null)
                     {
                         parent.Shapes.Remove(shape);
-                        
+
                         if (parent.Shapes.Count < 2)
                         {
                             var grandParent = shapeLocator.GrandParent;
@@ -57,15 +56,11 @@ namespace GraphicsEditor
                             {
                                 grandParent.Shapes.Add(parent.Shapes[0]);
                                 grandParent.Shapes.Remove(parent);
-                                SelectionContainer.GetInstance().AddSelection(parent.Shapes[0]);
-                                SelectionContainer.GetInstance().OnMainRemove(parent);
                             }
                             else
                             {
                                 picture.Add(parent.Shapes[0]);
                                 picture.Remove(parent);
-                                SelectionContainer.GetInstance().AddSelection(parent.Shapes[0]);
-                                SelectionContainer.GetInstance().OnMainRemove(parent);
                             }
                         }
                     }
@@ -75,9 +70,11 @@ namespace GraphicsEditor
                         picture.Remove(shape);
                     }
                 }
+
                 UpdateHistory();
+                SelectionContainer.GetInstance().OnMainRemove(picture);
             }
-            catch(ArgumentException e)
+            catch (ArgumentException e)
             {
                 Console.WriteLine(e.Message);
             }

@@ -42,30 +42,39 @@ namespace GraphicsEditor.Select
 
                 foreach (var shapeLocator in shapeLocators)
                 {
-                    if (shapeLocator.Parent != null)
+                    var shape = shapeLocator.Shape;
+                    var parent = shapeLocator.Parent;
+                    
+                    if (parent != null)
                     {
-                        shapeLocator.Parent.Shapes.Remove(shapeLocator.Shape);
-                        if (shapeLocator.Parent.Shapes.Count < 2)
+                        parent.Shapes.Remove(shape);
+                        
+                        if (parent.Shapes.Count < 2)
                         {
-                            if (shapeLocator.GrandParent != null)
+                            var grandParent = shapeLocator.GrandParent;
+                            if (grandParent != null)
                             {
-                                shapeLocator.GrandParent.Shapes.Add(shapeLocator.Parent.Shapes[0]);
-                                shapeLocator.GrandParent.Shapes.Remove(shapeLocator.Parent);
+                                grandParent.Shapes.Add(parent.Shapes[0]);
+                                grandParent.Shapes.Remove(parent);
+                                /*SelectionContainer.GetInstance().AddSelection(parent.Shapes[0]);
+                                SelectionContainer.GetInstance().RemoveSelection(parent)*/;
                             }
                             else
                             {
-                                SelectionContainer.GetInstance().AddSelection(shapeLocator.Parent.Shapes[0]);
-                                SelectionContainer.GetInstance().RemoveSelection(shapeLocator.Parent);
+                                SelectionContainer.GetInstance().Shapes.Add(parent.Shapes[0]);
+                                SelectionContainer.GetInstance().Shapes.Remove(parent);
+                                /*SelectionContainer.GetInstance().AddSelection(parent.Shapes[0]);
+                                SelectionContainer.GetInstance().RemoveSelection(parent)*/;
                             }
                         }
+                        
+                        parent.Shapes.Add(shape);
                     }
                     else
                     {
-                        SelectionContainer.GetInstance().RemoveSelection(shapeLocator.Shape);
+                        SelectionContainer.GetInstance().RemoveSelection(shape);
                     }
                 }
-            
-                SelectionContainer.GetInstance().RemoveSelection(shapeLocators.Select(sl => sl.Shape).ToList());
             }
             catch (ArgumentException e)
             {
