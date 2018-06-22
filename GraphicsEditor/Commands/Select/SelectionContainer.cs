@@ -5,7 +5,9 @@ namespace GraphicsEditor.Select
 {
     public class SelectionContainer
     {
-        private SelectionContainer() {}
+        private SelectionContainer()
+        {
+        }
 
         private static SelectionContainer INSTANCE;
 
@@ -60,11 +62,16 @@ namespace GraphicsEditor.Select
 
         public void OnUndo(IEnumerable<IShape> shapes)
         {
-            Shapes = ((List<IShape>)shapes).FindAll(shape => Shapes.Select(s => s.UID).Contains(shape.UID));
+            Shapes = ((List<IShape>) shapes).FindAll(shape => Shapes.Select(s => s.UID).Contains(shape.UID));
         }
-        
+
         public void OnUngroup(ShapeLocator shape)
         {
+            if (!Shapes.Contains(shape.Shape))
+            {
+                return;
+            }
+
             if (shape.Shape is CompoundShape)
             {
                 var compoundShape = shape.Shape as CompoundShape;
@@ -79,6 +86,7 @@ namespace GraphicsEditor.Select
                 else
                 {
                     RemoveSelection(shape.Shape);
+
                     foreach (var currentShape in compoundShape.Shapes)
                     {
                         AddSelection(currentShape);

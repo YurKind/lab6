@@ -230,6 +230,7 @@ namespace GraphicsEditor
         {
             var shape = ShapeLocator.Parse(indexes[0], this);
             SelectionContainer.GetInstance().OnUngroup(shape);
+            
             if (shape.Shape is CompoundShape)
             {
                 var compoundShape = shape.Shape as CompoundShape;

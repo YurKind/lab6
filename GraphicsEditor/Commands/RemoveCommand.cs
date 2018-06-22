@@ -59,6 +59,8 @@ namespace GraphicsEditor
                             {
                                 grandParent.Shapes.Add(parent.Shapes[0]);
                                 grandParent.Shapes.Remove(parent);
+                                SelectionContainer.GetInstance().AddSelection(parent.Shapes[0]);
+                                SelectionContainer.GetInstance().OnMainRemove(parent);
                             }
                             else
                             {
