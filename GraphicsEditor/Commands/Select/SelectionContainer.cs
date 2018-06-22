@@ -62,7 +62,25 @@ namespace GraphicsEditor.Select
 
         public void OnUndo(IEnumerable<IShape> shapes)
         {
-            Shapes = ((List<IShape>) shapes).FindAll(shape => Shapes.Select(s => s.UID).Contains(shape.UID));
+            var allShapes = GetAllShapes(shapes);
+            Shapes = allShapes.FindAll(shape => Shapes.Select(s => s.UID).Contains(shape.UID));
+        }
+
+        private List<IShape> GetAllShapes(IEnumerable<IShape> shapes)
+        {
+            var result = new List<IShape>();
+
+            foreach (var shape in shapes)
+            {
+                if (shape is CompoundShape compoundShape)
+                {
+                    result.AddRange(GetAllShapes(compoundShape.Shapes));
+                }
+
+                result.Add(shape);
+            }
+
+            return result.Distinct().ToList();
         }
 
         public void OnUngroup(ShapeLocator shape)
