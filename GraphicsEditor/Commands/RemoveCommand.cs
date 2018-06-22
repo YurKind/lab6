@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using ConsoleUI;
 using GraphicsEditor.Select;
 
 namespace GraphicsEditor

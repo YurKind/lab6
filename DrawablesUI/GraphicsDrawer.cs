@@ -8,7 +8,8 @@ namespace DrawablesUI
     {
         private readonly Graphics graph;
         private float pointWidth;
-        private Pen pen = new Pen(Color.Black, 1);
+        private static float penWidth = 1f;
+        private Pen pen = new Pen(Color.Black, penWidth);
 
         public GraphicsDrawer(Graphics g)
         {
@@ -31,7 +32,7 @@ namespace DrawablesUI
             {
                 graph.FillEllipse(b, new RectangleF(
                     new PointF(point.X - pointWidth/2, point.Y - pointWidth/2),
-                    new SizeF(1, 1)
+                    new SizeF(penWidth, penWidth)
                     ));
             }
         }

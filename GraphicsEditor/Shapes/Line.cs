@@ -11,13 +11,13 @@ namespace GraphicsEditor
 
         public Line(float xStart, float yStart, float xEnd, float yEnd, string uid)
         {
-            var startPnt = new PointF()
+            var startPnt = new PointF
             {
                 X = xStart,
                 Y = yStart
             };
 
-            var endPnt = new PointF()
+            var endPnt = new PointF
             {
                 X = xEnd,
                 Y = yEnd

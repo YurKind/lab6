@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Dynamic;
 using System.Linq;
 using ConsoleUI;
 
@@ -38,11 +37,11 @@ namespace GraphicsEditor
         {
             if (rawParams.Length == 0)
             {
-                throw new System.ArgumentException("Для этой команды нужен хотя бы один аргумент!");
+                throw new ArgumentException("Для этой команды нужен хотя бы один аргумент!");
             }
             if (numberOfShapes == 0)
             {
-                throw new System.ArgumentException("На картинке нет фигур! Прежде чем удалять, добавьте фигуры!");
+                throw new ArgumentException("На картинке нет фигур! Прежде чем удалять, добавьте фигуры!");
             }
             int[] result = new int[rawParams.Length];
             for(var i = 0; i < rawParams.Length; i++)
@@ -53,12 +52,12 @@ namespace GraphicsEditor
                     var arg = int.Parse(currentParam);
                     if (arg < 0)
                     {
-                        throw new System.ArgumentException("Индекс не может быть меньше нуля!");
+                        throw new ArgumentException("Индекс не может быть меньше нуля!");
                     }
                     var lastIndex = numberOfShapes - 1;
                     if (arg > lastIndex)
                     {
-                        throw new System.ArgumentException(
+                        throw new ArgumentException(
                             "Указан слишком большой индекс!\n" +
                             $"В данный момент на картинке всего {numberOfShapes} фигур." +
                             $" (Максимальный возможный индекс - {lastIndex})");
@@ -67,7 +66,7 @@ namespace GraphicsEditor
                 }
                 catch (FormatException)
                 {
-                    throw new System.ArgumentException(
+                    throw new ArgumentException(
                         $"Неверный параметр: '{currentParam}' на позиции {i + 1}." +
                         " Аргументами этой команды могут быть только целые числа!");
                 }
@@ -80,7 +79,7 @@ namespace GraphicsEditor
         {
             if (rawParams.Length != 1)
             {
-                throw new System.ArgumentException(
+                throw new ArgumentException(
                     $"Для команды '{command.Name}' " +
                      "нужен один агрумент - имя файла (путь к нему)."
                     );
@@ -93,7 +92,7 @@ namespace GraphicsEditor
         {
             if (width <= 0 || height <= 0)
             {
-                throw new System.ArgumentException("Неверные аргументы! Высота и ширина должны быть больше 0!");
+                throw new ArgumentException("Неверные аргументы! Высота и ширина должны быть больше 0!");
             }
         }
 
@@ -101,7 +100,7 @@ namespace GraphicsEditor
         {
             if (radius <= 0)
             {
-                throw new System.ArgumentException("Неверный аргумент! Радиус должен быть больше 0");
+                throw new ArgumentException("Неверный аргумент! Радиус должен быть больше 0");
             }
         }
     }

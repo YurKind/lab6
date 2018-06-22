@@ -62,10 +62,7 @@ namespace GraphicsEditor
             lock (lockObject)
             {
                 shapes.Add(shape);
-                if (Changed != null)
-                {
-                    Changed();
-                }
+                Changed?.Invoke();
             }
         }
 
@@ -74,8 +71,7 @@ namespace GraphicsEditor
             lock (lockObject)
             {
                 shapes.Insert(index, shape);
-                if (Changed != null)
-                    Changed();
+                Changed?.Invoke();
             }
         }
 
@@ -83,7 +79,7 @@ namespace GraphicsEditor
         {
             lock (lockObject)
             {
-                Changed();
+                Changed?.Invoke();
             }
         }
 

@@ -21,6 +21,13 @@ namespace GraphicsEditor
         
         public void Execute(params string[] parameters)
         {
+
+            if (parameters.Length > 0)
+            {
+                Console.WriteLine("redo не нужны аргументы");
+                return;
+            }
+            
             var shapes = CommandHistoryContainer.GetInstance().OnRedo();
 
             if (shapes == null)

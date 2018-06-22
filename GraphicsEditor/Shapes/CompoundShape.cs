@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using DrawablesUI;
 using System;
+using System.Linq;
 using System.Text;
 
 namespace GraphicsEditor
@@ -62,6 +63,27 @@ namespace GraphicsEditor
             return result;
         }
 
+        public bool ContainsInAnyChildren(IShape shape)
+        {
+            return GetAllInnerChildren(Shapes).Select(s => s.UID).Contains(shape.UID);
+        }
+
+        private IEnumerable<IShape> GetAllInnerChildren(IEnumerable<IShape> children)
+        {
+            var result = new List<IShape>();
+            foreach (var shape in children)
+            {
+                if (shape is CompoundShape cs)
+                {
+                    result.AddRange(GetAllInnerChildren(cs.Shapes));
+                }
+
+                result.Add(shape);
+            }
+
+            return result;
+        }
+
         public void CleanShapes()
         {
             for (int i = 0; i < Shapes.Count; i++)
@@ -86,31 +108,12 @@ namespace GraphicsEditor
             }
         }
 
-        public void Print(IDrawer drawer, string path)
-        {
-            for (int i = 0; i < Shapes.Count; i++)
-            {
-                Console.Write("[{0}] ", path + i);
-
-                var cshape = Shapes[i] as CompoundShape;
-                if (cshape != null)
-                {
-                    Console.Write(cshape.name + "\n");
-                    cshape.Print(drawer, path + i + ":");
-                }
-                else
-                {
-                    Shapes[i].Draw(drawer);
-                }
-            }
-        }
-
         public string ToSvg()
         {
             var builder = new StringBuilder();
 
             ToSvgGroup(builder);
-            
+
             return builder.ToString();
         }
 
@@ -129,10 +132,10 @@ namespace GraphicsEditor
                     builder.AppendLine(shape.ToSvg());
                 }
             }
-            
+
             builder.AppendLine("</g>");
         }
-        
+
         public IShape Clone()
         {
             return (CompoundShape) MemberwiseClone();

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Drawing.Printing;
-using ConsoleUI;
 
 namespace GraphicsEditor
 {

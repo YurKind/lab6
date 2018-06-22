@@ -20,14 +20,26 @@ namespace GraphicsEditor.Select
 
         public void SetSelection(IEnumerable<IShape> shapes)
         {
-            Shapes = new List<IShape>(shapes);
+            Shapes = new List<IShape>();
+            AddSelection(shapes);
         }
 
         public void AddSelection(IShape shape)
         {
-            if (!Shapes.Contains(shape))
+            if (!GetAllShapes(Shapes).Contains(shape))
             {
                 Shapes.Add(shape);
+            }
+            
+            if (shape is CompoundShape cs)
+            {
+                foreach (var s in Shapes.ToList())
+                {
+                    if (cs.ContainsInAnyChildren(s))
+                    {
+                        Shapes.Remove(s);
+                    }
+                }
             }
         }
 
@@ -35,10 +47,7 @@ namespace GraphicsEditor.Select
         {
             foreach (var shape in shapes)
             {
-                if (!Shapes.Contains(shape))
-                {
-                    Shapes.Add(shape);
-                }
+                AddSelection(shape);
             }
         }
 

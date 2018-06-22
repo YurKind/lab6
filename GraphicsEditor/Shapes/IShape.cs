@@ -1,5 +1,4 @@
 ﻿using DrawablesUI;
-using Microsoft.Win32;
 
 namespace GraphicsEditor
 {
