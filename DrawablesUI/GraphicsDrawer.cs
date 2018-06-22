@@ -22,7 +22,7 @@ namespace DrawablesUI
         {
             pen.Dispose();
             pen = new Pen(color, width);
-            pointWidth = width/ graph.PageScale;
+            pointWidth = width / graph.PageScale;
         }
 
         public void DrawPoint(PointF point)
@@ -31,7 +31,7 @@ namespace DrawablesUI
             {
                 graph.FillEllipse(b, new RectangleF(
                     new PointF(point.X - pointWidth/2, point.Y - pointWidth/2),
-                    new SizeF(pointWidth, pointWidth)
+                    new SizeF(1, 1)
                     ));
             }
         }
